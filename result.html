@@ -1,0 +1,523 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sakhi's SQL Results ♡</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 45px 20px;
+
+    font-family: 'DM Sans', sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #f8b6c9,
+        #f5c5d8,
+        #e9a9c5,
+        #fbd5df
+    );
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    position: relative;
+}
+
+body::before {
+    content: "♡";
+    position: fixed;
+    font-size: 400px;
+    color: rgba(255,255,255,0.13);
+    top: 20px;
+    right: -50px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Floating hearts */
+
+.heart {
+    position: fixed;
+    color: rgba(255,255,255,0.8);
+    animation: float 7s infinite ease-in-out;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.h1 {
+    top: 12%;
+    left: 8%;
+    font-size: 35px;
+}
+
+.h2 {
+    bottom: 15%;
+    right: 8%;
+    font-size: 45px;
+    animation-delay: 2s;
+}
+
+.h3 {
+    top: 70%;
+    left: 15%;
+    font-size: 25px;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0);
+    }
+
+    50% {
+        transform: translateY(-25px) rotate(12deg);
+    }
+}
+
+/* Main card */
+
+.wrapper {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: auto;
+
+    background: rgba(255, 247, 250, 0.93);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 30px;
+
+    padding: 45px;
+
+    box-shadow: 0 25px 70px rgba(143, 39, 83, 0.2);
+
+    position: relative;
+    z-index: 2;
+}
+
+/* Heading */
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    color: #9e315c;
+    font-size: clamp(34px, 5vw, 52px);
+    margin: 0;
+}
+
+/* Success badge */
+
+.success {
+    background: #dff5e5;
+    color: #28784a;
+
+    padding: 11px 18px;
+
+    border-radius: 25px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    box-shadow: 0 4px 12px rgba(40,120,74,0.1);
+}
+
+/* Query display */
+
+.query-info {
+    background: #fce5ed;
+
+    padding: 17px 20px;
+
+    border-radius: 14px;
+
+    color: #8e4562;
+
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+
+    margin-bottom: 25px;
+
+    overflow-wrap: anywhere;
+
+    line-height: 1.8;
+}
+
+/* Table */
+
+.table-container {
+    overflow-x: auto;
+
+    border-radius: 16px;
+
+    border: 1px solid #efc3d2;
+
+    box-shadow: 0 8px 20px rgba(180,70,110,0.06);
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    text-align: left;
+
+    font-size: 14px;
+}
+
+thead {
+    background: linear-gradient(
+        90deg,
+        #f3b3c9,
+        #ed9fbc
+    );
+
+    color: #762b4a;
+}
+
+th, td {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #f2d6e0;
+}
+
+th {
+    font-weight: 700;
+}
+
+tbody tr {
+    background: rgba(255,255,255,0.65);
+    transition: background 0.2s;
+}
+
+tbody tr:hover {
+    background: #fce6ef;
+}
+
+.number {
+    color: #b37b90;
+    width: 65px;
+}
+
+.column {
+    font-family: 'Fira Code', monospace;
+    color: #573346;
+}
+
+.value {
+    color: #a52f5b;
+    font-weight: 700;
+}
+
+/* Sakhi row */
+
+.special {
+    background: #fbd8e5 !important;
+}
+
+.special td {
+    font-weight: 700;
+    color: #9e315c;
+}
+
+.special .value {
+    color: #c62e69;
+    font-size: 16px;
+}
+
+/* Row count */
+
+.rows {
+    color: #95566e;
+    margin: 22px 0 25px;
+    font-size: 14px;
+}
+
+/* Romantic message */
+
+.message {
+    background: linear-gradient(
+        135deg,
+        #fbd7e4,
+        #f7c2d7
+    );
+
+    border-radius: 22px;
+
+    padding: 30px 25px;
+
+    text-align: center;
+
+    color: #85324f;
+
+    line-height: 1.9;
+
+    font-family: 'Dancing Script', cursive;
+
+    font-size: clamp(21px, 3vw, 28px);
+
+    box-shadow: 0 8px 25px rgba(180,70,110,0.1);
+}
+
+.message .big-heart {
+    font-size: 35px;
+    color: #d94d83;
+}
+
+.message p {
+    margin: 8px 0;
+}
+
+/* Back button */
+
+.back {
+    display: block;
+
+    margin: 30px auto 0;
+
+    border: none;
+
+    padding: 15px 30px;
+
+    border-radius: 35px;
+
+    background: linear-gradient(
+        135deg,
+        #f17da7,
+        #c62e69
+    );
+
+    color: white;
+
+    font-family: 'DM Sans', sans-serif;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    box-shadow: 0 8px 20px rgba(198,46,105,0.2);
+}
+
+.back:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(198,46,105,0.35);
+}
+
+/* Responsive */
+
+@media(max-width: 768px) {
+
+    body {
+        padding: 25px 12px;
+    }
+
+    .wrapper {
+        padding: 25px 18px;
+        border-radius: 24px;
+    }
+
+    th, td {
+        padding: 12px 10px;
+        font-size: 12px;
+    }
+
+    .query-info {
+        font-size: 11px;
+    }
+
+    .message {
+        padding: 23px 16px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Floating hearts -->
+
+<div class="heart h1">♡</div>
+<div class="heart h2">♡</div>
+<div class="heart h3">♡</div>
+
+<!-- Main content -->
+
+<div class="wrapper">
+
+    <!-- Heading -->
+
+    <div class="heading">
+
+        <h1>♡ Query Results</h1>
+
+        <div class="success">
+            ✓ 200 OK
+        </div>
+
+    </div>
+
+    <!-- Executed query -->
+
+    <div class="query-info" id="queryDisplay"></div>
+
+    <!-- Results table -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>#</th>
+                    <th>Column</th>
+                    <th>Value</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="resultBody"></tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Row count -->
+
+    <div class="rows" id="rowCount"></div>
+
+    <!-- Romantic message -->
+
+    <div class="message">
+
+        <div class="big-heart">♡</div>
+
+        <p>
+            Yes, Sakhi... you're absolutely correct. ♡
+        </p>
+
+        <p>
+            Looks like you've figured me out pretty well...😉
+        </p>
+
+        <p>
+            How are you so good at reading people? Teach me pleaseeee!!. 
+        </p>
+
+        <div class="big-heart">♥</div>
+
+    </div>
+
+    <!-- Back button -->
+
+    <button class="back" onclick="goBack()">
+        ← Run Query Again, Sakhi Yaaa!
+    </button>
+
+</div>
+
+<script>
+
+// Personality observations
+
+const observations = {
+
+    sarcasm_level: "Yes, Big time Mahesh Babu offscreen fan",
+    kindness: "I'm kind enough to swipe you right",
+    overthinking: "Sometimes when looking at your pictures",
+    cooking_skills: "50%, if you're at 50% too let's make it 100 together",
+    love_for_beaches: "From vizag, So Obvisouly",
+    love_for_sunsets: "Totally",
+    romantic_side: "Secret",
+    caring_nature: "Yes, 100%",
+    problem_solving: "couldn't clear JEE Mains :( ",
+    intelligence: "Up to you to figure out",
+    love_for_family: "YES, 101%",
+    love_for_friends: "YES, 97.5%",
+    likes_sakhi: "Yes, Figuring out percentage ❤️"
+
+};
+
+// Display executed query
+
+const query = sessionStorage.getItem("sakhiQuery");
+
+document.getElementById("queryDisplay").textContent =
+    query || "SELECT * FROM my_personality WHERE your_observations = TRUE;";
+
+// Populate table
+
+const tbody = document.getElementById("resultBody");
+
+Object.entries(observations).forEach(([column, value], index) => {
+
+    const row = document.createElement("tr");
+
+    // Highlight Sakhi's row
+
+    if (column === "likes_sakhi") {
+        row.classList.add("special");
+    }
+
+    const numberCell = document.createElement("td");
+    numberCell.className = "number";
+    numberCell.textContent = index + 1;
+
+    const columnCell = document.createElement("td");
+    columnCell.className = "column";
+    columnCell.textContent = column;
+
+    const valueCell = document.createElement("td");
+    valueCell.className = "value";
+    valueCell.textContent = value;
+
+    row.append(numberCell, columnCell, valueCell);
+
+    tbody.appendChild(row);
+
+});
+
+// Display row count
+
+document.getElementById("rowCount").textContent =
+    `♡ ${Object.keys(observations).length} rows returned.`;
+
+// Navigate back
+
+function goBack() {
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

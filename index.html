@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sakhi's SQL Witchbook ♡</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'DM Sans', sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #f8b6c9,
+        #f5c5d8,
+        #e9a9c5,
+        #fbd5df
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding: 45px 20px;
+    position: relative;
+}
+
+/* Background decoration */
+
+body::before {
+    content: "♡";
+    position: fixed;
+    font-size: 400px;
+    color: rgba(255,255,255,0.13);
+    top: 30px;
+    right: -50px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heart {
+    position: fixed;
+    color: rgba(255,255,255,0.8);
+    animation: float 7s infinite ease-in-out;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.h1 {
+    top: 12%;
+    left: 12%;
+    font-size: 35px;
+}
+
+.h2 {
+    bottom: 15%;
+    right: 12%;
+    font-size: 45px;
+    animation-delay: 2s;
+}
+
+.h3 {
+    top: 75%;
+    left: 20%;
+    font-size: 25px;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0);
+    }
+
+    50% {
+        transform: translateY(-25px) rotate(12deg);
+    }
+}
+
+/* Main card */
+
+.container {
+    width: 100%;
+    max-width: 875px;
+
+    background: rgba(255, 246, 249, 0.91);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 30px;
+
+    padding: 65px 60px;
+
+    text-align: center;
+
+    box-shadow: 0 25px 70px rgba(143, 39, 83, 0.2);
+
+    position: relative;
+    z-index: 2;
+
+    margin: auto;
+}
+
+/* Heading */
+
+.top-heart {
+    font-size: 42px;
+    color: #e45d8b;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(38px, 6vw, 76px);
+    color: #9e315c;
+    margin: 5px 0 20px;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #95566e;
+    font-size: 20px;
+    line-height: 1.8;
+    margin-bottom: 42px;
+}
+
+/* SQL Editor */
+
+.editor {
+    background: #392a38;
+    border-radius: 25px;
+    overflow: hidden;
+    text-align: left;
+
+    box-shadow: 0 15px 35px rgba(60, 20, 43, 0.2);
+}
+
+.editor-header {
+    padding: 18px 25px;
+
+    color: #f5c5d8;
+    font-size: 13px;
+    letter-spacing: 2px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dots {
+    color: #ff9aab;
+    letter-spacing: 6px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 190px;
+
+    resize: vertical;
+
+    background: transparent;
+    border: none;
+    outline: none;
+
+    color: #ffe5ef;
+
+    padding: 25px 30px;
+
+    font-family: 'Fira Code', monospace;
+    font-size: 17px;
+    line-height: 2.1;
+    caret-color: #ff8eb5;
+}
+
+textarea::placeholder {
+    color: #b99baa;
+}
+
+/* Run button */
+
+.run-btn {
+    margin-top: 38px;
+
+    border: none;
+    border-radius: 50px;
+
+    padding: 19px 55px;
+
+    background: linear-gradient(
+        135deg,
+        #f17da7,
+        #c62e69
+    );
+
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 10px 25px rgba(198, 46, 105, 0.3);
+
+    transition: all 0.3s ease;
+}
+
+.run-btn:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 15px 30px rgba(198, 46, 105, 0.4);
+}
+
+.run-btn:active {
+    transform: scale(0.97);
+}
+
+/* Error message */
+
+.error {
+    color: #bb315d;
+    font-size: 14px;
+    margin-top: 18px;
+    min-height: 20px;
+}
+
+/* Footer */
+
+.footer {
+    margin-top: 38px;
+
+    color: #a66c82;
+
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+}
+
+/* Responsive design */
+
+@media(max-width: 768px) {
+
+    body {
+        padding: 30px 15px;
+    }
+
+    .container {
+        padding: 45px 25px;
+        border-radius: 25px;
+    }
+
+    .subtitle {
+        font-size: 17px;
+        margin-bottom: 30px;
+    }
+
+    textarea {
+        font-size: 14px;
+        padding: 20px;
+        min-height: 160px;
+    }
+
+    .run-btn {
+        font-size: 16px;
+        padding: 16px 40px;
+    }
+
+    .footer {
+        font-size: 22px;
+    }
+}
+
+@media(max-width: 420px) {
+
+    .container {
+        padding: 35px 18px;
+    }
+
+    h1 {
+        font-size: 42px;
+    }
+
+    .editor-header {
+        padding: 14px 16px;
+    }
+
+    textarea {
+        font-size: 12px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Floating hearts -->
+
+<div class="heart h1">♡</div>
+<div class="heart h2">♡</div>
+<div class="heart h3">♡</div>
+
+<!-- Main content -->
+
+<div class="container">
+
+    <div class="top-heart">♡</div>
+
+    <h1>Sakhi's SQL Witchbook</h1>
+
+    <p class="subtitle">
+        Run a query and let's see<br>
+        what it reveals about Sakha ♡
+    </p>
+
+    <!-- SQL Editor -->
+
+    <div class="editor">
+
+        <div class="editor-header">
+
+            <span class="dots">
+                ● ● ●
+            </span>
+
+            <span>SQL QUERY</span>
+
+        </div>
+
+        <textarea
+            id="query"
+            spellcheck="false"
+            placeholder="Write your SQL query here..."
+        >SELECT *
+FROM my_personality
+WHERE your_observations = TRUE;</textarea>
+
+    </div>
+
+    <!-- Run Query -->
+
+    <button class="run-btn" onclick="runQuery()">
+        ▶ Run Query ♡
+    </button>
+
+    <div class="error" id="error"></div>
+
+    <!-- Footer -->
+
+    <div class="footer">
+         lot of ❤️ Sakhi
+    </div>
+
+</div>
+
+<script>
+
+function runQuery() {
+
+    const query = document
+        .getElementById("query")
+        .value
+        .trim();
+
+    const normalized = query
+        .replace(/;+\s*$/, "")
+        .replace(/\s+/g, " ")
+        .toLowerCase();
+
+    const expected =
+        "select * from my_personality where your_observations = true";
+
+    if (normalized !== expected) {
+
+        document.getElementById("error").textContent =
+            "Hmm... that's not quite the query I was expecting. We got time. Try again, Saskhi! 😉";
+
+        return;
+    }
+
+    sessionStorage.setItem("sakhiQuery", query);
+
+    window.location.href = "result.html";
+}
+
+</script>
+
+</body>
+</html>
